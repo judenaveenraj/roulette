@@ -47,23 +47,19 @@ fill: "#0aa",
 //////////////////////////////////////////////////////////////
 
 function reducespin(){
-setTimeout(function(){wheelspeed-=0.2; reducespin();},100);
+if (wheelspeed>0)  setTimeout(function(){wheelspeed=(wheelspeed>0)? wheelspeed-0.005:0; reducespin();},5);
+else wheelspeed=0;
+stopbtntext.text=wheelspeed;  //DEBUG
 }
 
 function stopspin(){
-if(spinwheel!=0){
-console.log("im in again");
 spinwheel=0;
-console.log(wheelspeed);
 reducespin();
-
-console.log(wheelspeed);
-}
 }
 
 
 
-stopbtn.bind("click tap",function(){console.log("Im in");stopspin();});
+stopbtn.bind("click tap",function(){if(spinwheel!=0) stopspin();});
 stopbtn.addChild(stopbtntext);
 canvas.addChild(stopbtn);
 
