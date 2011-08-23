@@ -23,6 +23,18 @@ height:canvas.height,
 stroke: " 10px #239 "
 });
 
+var indi=canvas.display.arc({
+x:250,
+y:canvas.height/2,
+origin:{x:"center",y:"center"},
+radius:90,
+stroke:"100px #fff",
+start:-5,
+end:5,
+opacity:0.5,
+rotation:0
+
+});
 
 var wheel=canvas.display.image({
 x:250,
@@ -153,6 +165,7 @@ posangle=posangrad*(180/Math.PI);
 
 canvas.setLoop(function(){
 	wheel.rotation+=wheelspeed;
+	indi.rotation= (upperhalf==0)? ((ball.y<0)? posangle+180:posangle):(-1*posangle);
 	if (wheel.rotation==360) wheel.rotation=0;
 	//stopbtntext.text=ballspdinc;
 	stopbtntext.text=upperhalf;
@@ -175,6 +188,7 @@ stopbtn.addChild(stopbtntext);
 canvas.addChild(stopbtn);
 canvas.addChild(rect);
 canvas.addChild(wheel);
+canvas.addChild(indi);
 canvas.addChild(ball);
 
 
