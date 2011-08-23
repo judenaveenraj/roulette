@@ -97,7 +97,7 @@ if (posrad<130)
 function decrSpd(){
 if(ballspdinc>0 && wheelRotStatus==0)
 ballspdinc-=0.002;
-if(ballspdinc>0) ballspdinc=0;
+if(ballspdinc<0) ballspdinc=0;
 }
 
 function ballAccelrt(){
@@ -108,6 +108,7 @@ posx=posrad*Math.cos(posangrad);
 posy=posrad*Math.sin(posangrad);
 ball.x=posx+250;
 ball.y=posy+250;
+
 //console.log(" 1:"+posx+" 2:"+posy+" 3:"+posrad+" 4:"+posangrad+" 5:"+posangle+" 6:"+ball.x+" 7:"+ball.y);
 setTimeout(function(){if (posrad<130) incrRadius();},5);
 if (wheelRotStatus==1)
@@ -143,7 +144,7 @@ posangle=posangrad*(180/Math.PI);
 canvas.setLoop(function(){
 	wheel.rotation+=wheelspeed;
 	if (wheel.rotation==360) wheel.rotation=0;
-	stopbtntext.text=ballspdinc;
+	//stopbtntext.text=ballspdinc;
 	}).start();
 
 stopbtn.bind("click tap",function(){if(spinwheel!=0) stopspin();});
@@ -152,9 +153,10 @@ stopbtn.bind("click tap",function(){if(spinwheel!=0) stopspin();});
 ball.dragAndDrop({
 	move: function(){ stopbtntext.text="x:"+(posx)+" y:"+(posy)+" a:"+posangle;},
 	end: function(){
-		stopbtntext.text="x:"+(posx)+" y:"+(posy)+" a:"+posangle;
+		getBallPos();	
+		stopbtntext.text="x:"+(posx)+" y:"+(posy)+" a:"+posangle;	
 		dropball();
-		getBallPos();
+
 		setTimeout(function(){stopspin();},1000);}
 });
 
