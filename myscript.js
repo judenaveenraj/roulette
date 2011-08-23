@@ -1,3 +1,9 @@
+var spinwheel=1;
+var wheelspeed=5.0;
+
+
+/////////////////////////////////////////////////////////////
+
 var canvas= oCanvas.create({
 canvas: "#canvas",
 fps:60
@@ -9,7 +15,7 @@ x:0,
 y:0,
 width:canvas.width,
 height:canvas.height,
-stroke: "10px #239"
+stroke: " 10px #239 "
 });
 
 var circ=canvas.display.image({
@@ -20,35 +26,52 @@ image: "wheel.jpg",
 rotation:0
 });
 
-function stopspin(){
-canvas.timeline.stop();
-}
-
-var spinbtn = canvas.display.rectangle({
+var stopbtn = canvas.display.rectangle({
 x:500,
 y:400,
 width:100,
 height:50,
 fill: "#343",
 });
+
+
 var stopbtntext=canvas.display.text({
-x: spinbtn.width/2,
-y: spinbtn.height/2,
+x: stopbtn.width/2,
+y: stopbtn.height/2,
 origin: {x:"center", y:"center"},
 font: "bold 15px sans-serif",
 text:"Stop",
 fill: "#0aa",
 });
 
+//////////////////////////////////////////////////////////////
 
-spinbtn.bind("click tap",stopspin());
-spinbtn.addChild(stopbtntext);
-canvas.addChild(spinbtn);
+function reducespin(){
+setTimeout(function(){wheelspeed-=0.2; reducespin();},100);
+}
+
+function stopspin(){
+if(spinwheel!=0){
+console.log("im in again");
+spinwheel=0;
+console.log(wheelspeed);
+reducespin();
+
+console.log(wheelspeed);
+}
+}
+
+
+
+stopbtn.bind("click tap",function(){console.log("Im in");stopspin();});
+stopbtn.addChild(stopbtntext);
+canvas.addChild(stopbtn);
 
 
 
 canvas.setLoop(function(){
-circ.rotation+=5;
+circ.rotation+=wheelspeed;
+if (circ.rotation==360) circ.rotation=0;
 }).start();
 
 canvas.addChild(rect);
