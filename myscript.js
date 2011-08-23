@@ -6,7 +6,7 @@ var wheelspeed=5.0;
 
 var canvas= oCanvas.create({
 canvas: "#canvas",
-fps:60
+fps:30
 });
 
 
@@ -18,12 +18,25 @@ height:canvas.height,
 stroke: " 10px #239 "
 });
 
-var circ=canvas.display.image({
+var wheel=canvas.display.image({
 x:250,
 y:canvas.height/2,
 origin: {x:"center",y:"center"},
 image: "wheel.jpg",
 rotation:0
+});
+
+var ball= canvas.display.arc({
+x:50,
+y:50,
+origin:{x:"center", y:"center"},
+radius:10,
+start:0,
+end:359,
+fill:"#0aa",
+
+
+
 });
 
 var stopbtn = canvas.display.rectangle({
@@ -58,17 +71,37 @@ reducespin();
 }
 
 
+function dropball(){
+if(ball.radius>5)
+setTimeout(function(){
+ball.radius-=0.5;
+dropball();
+},75);
 
-stopbtn.bind("click tap",function(){if(spinwheel!=0) stopspin();});
-stopbtn.addChild(stopbtntext);
-canvas.addChild(stopbtn);
+}
+
 
 
 
 canvas.setLoop(function(){
-circ.rotation+=wheelspeed;
-if (circ.rotation==360) circ.rotation=0;
+wheel.rotation+=wheelspeed;
+if (wheel.rotation==360) wheel.rotation=0;
 }).start();
 
+stopbtn.bind("click tap",function(){if(spinwheel!=0) stopspin();});
+ball.dragAndDrop({
+
+move: function(){ stopbtntext.text="x:"+(ball.x-250)+" y:"+(ball.y-250);},
+end: function(){ stopbtntext.text="x:"+(ball.x-250)+" y:"+(ball.y-250); dropball();}
+});
+
+stopbtn.addChild(stopbtntext);
+canvas.addChild(stopbtn);
 canvas.addChild(rect);
-canvas.addChild(circ);
+canvas.addChild(wheel);
+canvas.addChild(ball);
+
+
+
+
+
