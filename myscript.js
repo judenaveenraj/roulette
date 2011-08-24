@@ -6,8 +6,10 @@ var dbgctr=0;
 var wheelRotStatus=1;
 var upperhalf=0; //to denote the ball is in upper half of wheel and to correct angle
 var indiRot=0;
+var ballDropped=0;
 var betMouseX=0;
 var betMouseY=0;
+var presentBetNum=0;
 
 /////////////////////////////////////////////////////////////
 
@@ -167,6 +169,8 @@ setTimeout(function(){ballAccelrt();},5);
 
 
 function dropball(){
+ball.dragAndDrop(false);
+ballDropped=1;
 if(ball.radius>6)
 	setTimeout(function(){
 		ball.radius-=0.5;
@@ -195,16 +199,19 @@ canvas.setLoop(function(){
 	//indi.rotation=indiRot*10;
 	//console.log(indi.rotation);
 	if (wheel.rotation==360) wheel.rotation=0;
-	var x=(posangle-5)*-1;
-	x=x-wheel.rotation;
-	x=x%360;
-	x=x<0?-x:x;
-	x=angles[Math.floor(x/10)];
-	lucknumtext.text=x;
-
+	if(ballDropped==1)
+	{
+		var x=(posangle-5)*-1;
+		x=x-wheel.rotation;
+		x=x%360;
+		x=x<0?-x:x;
+		x=angles[Math.floor(x/10)];
+		lucknumtext.text=x;
+	}
 	betMouseX=canvas.mouse.x-545;
 	betMouseY=(canvas.mouse.y-360)*-1;
-	stopbtntext.text=betMouseX+"    "+betMouseY;
+	presentBetNum=(3*Math.floor(betMouseX/45))+(Math.ceil(betMouseY/45));
+	stopbtntext.text=betMouseX+"    "+betMouseY+"    "+presentBetNum;
 	}).start();
 
 stopbtn.bind("click tap",function(){if(spinwheel!=0) stopspin();});
@@ -216,8 +223,8 @@ ball.dragAndDrop({
 		getBallPos();	
 		//stopbtntext.text=" 1:"+posx+" 2:"+posy+" 3:"+posrad+" 4:"+posangrad+" 5:"+posangle+" 6:"+ball.x+" 7:"+ball.y;
 		dropball();
-
 		setTimeout(function(){stopspin();},1000);}
+		
 });
 
 stopbtn.addChild(stopbtntext);
