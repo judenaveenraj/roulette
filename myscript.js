@@ -14,7 +14,7 @@ var angles=[33,22,6,30,1,13,27,3,18,32,10,24,4,34,16,7,12,28,2,9,25,19,14,0,23,5
 
 var canvas= oCanvas.create({
 canvas: "#canvas",
-//background: "#0f0",
+background: "#5aa064",
 fps:30
 });
 
@@ -48,6 +48,15 @@ image: "wheel.jpg",
 rotation:0
 });
 
+var layout=canvas.display.image({
+x:650,
+y:canvas.height/2-50,
+width:500,
+height:300,
+origin:{x:"top", y:"left"},
+image: "roulette-table.jpg",
+});
+
 var ball= canvas.display.arc({
 x:50,
 y:50,
@@ -79,6 +88,7 @@ font: "bold 15px sans-serif",
 text:"Stop",
 fill: "#0aa",
 });
+
 var lucknum=stopbtn.clone({x:200, y:0});
 var lucknumtext=stopbtntext.clone({ x:lucknum.width/2, y:lucknum.height/2, text:"Waiting"});
 //////////////////////////////////////////////////////////////
@@ -212,7 +222,7 @@ canvas.addChild(indi);
 canvas.addChild(ball);
 lucknum.addChild(lucknumtext);
 canvas.addChild(lucknum);
-
+canvas.addChild(layout);
 
 
 
