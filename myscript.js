@@ -79,7 +79,8 @@ font: "bold 15px sans-serif",
 text:"Stop",
 fill: "#0aa",
 });
-
+var lucknum=stopbtn.clone({x:200, y:0});
+var lucknumtext=stopbtntext.clone({ x:lucknum.width/2, y:lucknum.height/2, text:"Waiting"});
 //////////////////////////////////////////////////////////////
 
 
@@ -135,6 +136,13 @@ ball.x=(1*posx)+250;
 ball.y=(-1*posy)+250;
 }
 
+if (ballspdinc==0)
+{	
+var x=-1*(posangle%360);
+x=Math.floor(posangle/10);
+console.log(x);
+//Math.floor(posangle
+}
 //console.log(" 1:"+posx+" 2:"+posy+" 3:"+posrad+" 4:"+posangrad+" 5:"+posangle+" 6:"+ball.x+" 7:"+ball.y);
 setTimeout(function(){if (posrad<130) incrRadius();},5);
 if (wheelRotStatus==1)
@@ -174,8 +182,13 @@ canvas.setLoop(function(){
 	//indi.rotation=indiRot*10;
 	//console.log(indi.rotation);
 	if (wheel.rotation==360) wheel.rotation=0;
-	//stopbtntext.text=ballspdinc;
-	stopbtntext.text=upperhalf;
+	var x=(posangle-5)*-1;
+	x=x-wheel.rotation;
+	x=x%360;
+	x=x<0?-x:x;
+	x=angles[Math.floor(x/10)];
+	lucknumtext.text=x;
+	//stopbtntext.text=upperhalf;
 	}).start();
 
 stopbtn.bind("click tap",function(){if(spinwheel!=0) stopspin();});
@@ -197,6 +210,8 @@ canvas.addChild(rect);
 canvas.addChild(wheel);
 canvas.addChild(indi);
 canvas.addChild(ball);
+lucknum.addChild(lucknumtext);
+canvas.addChild(lucknum);
 
 
 
