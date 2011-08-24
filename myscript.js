@@ -6,6 +6,8 @@ var dbgctr=0;
 var wheelRotStatus=1;
 var upperhalf=0; //to denote the ball is in upper half of wheel and to correct angle
 var indiRot=0;
+var betMouseX=0;
+var betMouseY=0;
 
 /////////////////////////////////////////////////////////////
 
@@ -49,12 +51,13 @@ rotation:0
 });
 
 var layout=canvas.display.image({
-x:650,
+x:450,
 y:canvas.height/2-50,
-width:500,
+width:700,
 height:300,
 origin:{x:"top", y:"left"},
 image: "roulette-table.jpg",
+stroke: "2px #fff"
 });
 
 var ball= canvas.display.arc({
@@ -73,7 +76,7 @@ stroke: "1px #000 "
 
 var stopbtn = canvas.display.rectangle({
 x:500,
-y:400,
+y:100,
 width:100,
 height:50,
 fill: "#343",
@@ -198,7 +201,10 @@ canvas.setLoop(function(){
 	x=x<0?-x:x;
 	x=angles[Math.floor(x/10)];
 	lucknumtext.text=x;
-	//stopbtntext.text=upperhalf;
+
+	betMouseX=canvas.mouse.x-545;
+	betMouseY=(canvas.mouse.y-360)*-1;
+	stopbtntext.text=betMouseX+"    "+betMouseY;
 	}).start();
 
 stopbtn.bind("click tap",function(){if(spinwheel!=0) stopspin();});
