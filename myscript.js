@@ -9,7 +9,7 @@ var indiRot=0;
 
 /////////////////////////////////////////////////////////////
 
-var arr=[33,22,6,30,1,13,27,3,18,32,10,24,4,34,16,7,12,28,2,9,25,19,14,0,23,5,31,17,35,11,2,26,29,15,8,20];
+var angles=[33,22,6,30,1,13,27,3,18,32,10,24,4,34,16,7,12,28,2,9,25,19,14,0,23,5,31,17,35,11,2,26,29,15,8,20];
 
 
 var canvas= oCanvas.create({
@@ -170,6 +170,9 @@ posangle=posangrad*(180/Math.PI);
 canvas.setLoop(function(){
 	wheel.rotation+=wheelspeed;
 	indi.rotation= (upperhalf==0)? ((ball.y<0)? posangle+180:posangle):(-1*posangle);
+	//indiRot=Math.floor(indiRot/10);
+	//indi.rotation=indiRot*10;
+	//console.log(indi.rotation);
 	if (wheel.rotation==360) wheel.rotation=0;
 	//stopbtntext.text=ballspdinc;
 	stopbtntext.text=upperhalf;
