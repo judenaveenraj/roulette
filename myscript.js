@@ -5,12 +5,16 @@ var ballspdinc=0.1;
 var dbgctr=0;
 var wheelRotStatus=1;
 var upperhalf=0; //to denote the ball is in upper half of wheel and to correct angle
+var indiRot=0;
+
 /////////////////////////////////////////////////////////////
+
 var arr=[33,22,6,30,1,13,27,3,18,32,10,24,4,34,16,7,12,28,2,9,25,19,14,0,23,5,31,17,35,11,2,26,29,15,8,20];
+
 
 var canvas= oCanvas.create({
 canvas: "#canvas",
-background: "#0f0",
+//background: "#0f0",
 fps:30
 });
 
