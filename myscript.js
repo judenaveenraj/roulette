@@ -16,8 +16,7 @@ var chipSel=1;
 /////////////////////////////////////////////////////////////
 
 var angles=[0,32,15,19,4,21,2,25,17,34,6,27,13,36,11,30,8,23,10,5,24,16,33,1,20,14,31,9,22,18,29,7,28,12,35,3,26];
-var betx=new Array(100);
-var bety=new Array(100);
+var chips=new Array();
 
 var canvas= oCanvas.create({
 canvas: "#canvas",
@@ -234,8 +233,36 @@ function guessBetPos(){
 	betMouseX=canvas.mouse.x-545;
 	betMouseY=(canvas.mouse.y-360)*-1;
 	if(0<betMouseX && betMouseX<535 && 0<betMouseY && betMouseY<135)
-	console.log("x:"+betMouseX+"y: "+betMouseY);
 	presentBetNum=(3*Math.floor(betMouseX/45))+(Math.ceil(betMouseY/45));
+	else if(-70<betMouseX && betMouseX<0 && 0<betMouseY && betMouseY<135)
+	presentBetNum=0;
+	else if(0<betMouseX && betMouseX<180 && -35<betMouseY && betMouseY<0)
+	presentBetNum=112;
+	else if(180<betMouseX && betMouseX<360 && -35<betMouseY && betMouseY<0)
+	presentBetNum=212;
+	else if(360<betMouseX && betMouseX<520 && -35<betMouseY && betMouseY<0)
+	presentBetNum=312;
+	else if(0<betMouseX && betMouseX<90 && -80<betMouseY && betMouseY<-35)
+	presentBetNum=118;
+	else if(90<betMouseX && betMouseX<180 && -80<betMouseY && betMouseY<-35)
+	presentBetNum=222;
+	else if(180<betMouseX && betMouseX<270 && -80<betMouseY && betMouseY<-35)
+	presentBetNum=200;
+	else if(270<betMouseX && betMouseX<360 && -80<betMouseY && betMouseY<-35)
+	presentBetNum=300;
+	else if(360<betMouseX && betMouseX<450 && -80<betMouseY && betMouseY<-35)
+	presentBetNum=111;
+	else if(450<betMouseX && betMouseX<540 && -80<betMouseY && betMouseY<-35)
+	presentBetNum=218;
+	else if(540<betMouseX && betMouseX<585 && 0<betMouseY && betMouseY<45)
+	presentBetNum=401;
+	else if(540<betMouseX && betMouseX<585 && 45<betMouseY && betMouseY<90)
+	presentBetNum=402;
+	else if(540<betMouseX && betMouseX<585 && 90<betMouseY && betMouseY<135)
+	presentBetNum=403;
+	else	presentBetNum=100;
+	
+	 
 	stopbtntext.text=betMouseX+"    "+betMouseY+"    "+presentBetNum;
 	
 
