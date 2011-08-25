@@ -134,6 +134,7 @@ bets[i]=chipSel;
 bettingCash+=chipSel;
 interCash=balanceCash-bettingCash;
 balancetext.text=interCash;
+setTimeout
 //////Update balanceCash on dropball();
 console.log(bettingCash);
 }
@@ -311,6 +312,21 @@ canvas.setLoop(function(){
 	
 	}).start();
 
+ball.bind("mouseenter",function(){  
+if(ballDropped==0){
+ball.dragAndDrop({
+	move: function(){ stopbtntext.text="x:"+(posx)+" y:"+(posy)+" a:"+posangle;},
+	end: function(){
+		getBallPos();		
+		console.log("draggin");	
+		//stopbtntext.text=" 1:"+posx+" 2:"+posy+" 3:"+posrad+" 4:"+posangrad+" 5:"+posangle+" 6:"+ball.x+" 7:"+ball.y;
+		dropball();    ////////////For debugging remove asap
+		setTimeout(function(){stopspin();},1000);}
+		
+});}
+ball.bind("mouseleave",function(){ball.dragAndDrop(false);});
+
+   });
 stopbtn.bind("click tap",function(){if(spinwheel!=0) stopspin();});
 chip1.bind("click tap",function(){ chipSel=1; selectChip();});
 chip10.bind("click tap",function(){ chipSel=10; selectChip();});
@@ -318,15 +334,7 @@ chip100.bind("click tap",function(){ chipSel=100; selectChip();});
 layout.bind("click tap",function(){ setTimeout(function(){guessBetPos();},5) });
 
 
-ball.dragAndDrop({
-	move: function(){ stopbtntext.text="x:"+(posx)+" y:"+(posy)+" a:"+posangle;},
-	end: function(){
-		getBallPos();	
-		//stopbtntext.text=" 1:"+posx+" 2:"+posy+" 3:"+posrad+" 4:"+posangrad+" 5:"+posangle+" 6:"+ball.x+" 7:"+ball.y;
-		//dropball();    ////////////For debugging remove asap
-		setTimeout(function(){stopspin();},1000);}
-		
-});
+
 
 
 selectChip();
