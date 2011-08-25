@@ -14,11 +14,13 @@ var presentBetNum=0;
 var chipSel=1;
 var balanceCash=250;
 var bettingCash=0;
+var interCash=250;
 
 /////////////////////////////////////////////////////////////
 
 var angles=[0,32,15,19,4,21,2,25,17,34,6,27,13,36,11,30,8,23,10,5,24,16,33,1,20,14,31,9,22,18,29,7,28,12,35,3,26];
 var chips=new Array();
+var bets={};
 
 var canvas= oCanvas.create({
 canvas: "#canvas",
@@ -120,6 +122,22 @@ function randomFromTo(from, to){
        return Math.random() * (to - from + 1) + from;
     }
 
+function chipYielder(i){
+
+}
+
+function addBet(i){
+if (bets[i])
+bets[i]+=chipSel;
+else
+bets[i]=chipSel;
+bettingCash+=chipSel;
+interCash=balanceCash-bettingCash;
+balancetext.text=interCash;
+//////Update balanceCash on dropball();
+console.log(bettingCash);
+}
+
 function selectChip(){
 switch(chipSel){
 case 1:
@@ -213,6 +231,7 @@ setTimeout(function(){ballAccelrt();},5);
 function dropball(){
 ball.dragAndDrop(false);
 ballDropped=1;
+balanceCash-=bettingCash;  ///Update balance Cash on start turn
 if(ball.radius>6)
 	setTimeout(function(){
 		ball.radius-=0.5;
@@ -266,7 +285,7 @@ function guessBetPos(){
 	presentBetNum=403;
 	else	presentBetNum=100;
 	
-	 
+	addBet(presentBetNum); 
 	stopbtntext.text=betMouseX+"    "+betMouseY+"    "+presentBetNum;
 	
 
@@ -304,7 +323,7 @@ ball.dragAndDrop({
 	end: function(){
 		getBallPos();	
 		//stopbtntext.text=" 1:"+posx+" 2:"+posy+" 3:"+posrad+" 4:"+posangrad+" 5:"+posangle+" 6:"+ball.x+" 7:"+ball.y;
-		dropball();
+		//dropball();    ////////////For debugging remove asap
 		setTimeout(function(){stopspin();},1000);}
 		
 });
