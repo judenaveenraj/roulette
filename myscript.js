@@ -15,7 +15,8 @@ var chipSel=1;
 /////////////////////////////////////////////////////////////
 
 var angles=[0,32,15,19,4,21,2,25,17,34,6,27,13,36,11,30,8,23,10,5,24,16,33,1,20,14,31,9,22,18,29,7,28,12,35,3,26];
-
+var betx=new Array(100);
+var bety=new Array(100);
 
 var canvas= oCanvas.create({
 canvas: "#canvas",
@@ -228,8 +229,10 @@ posangle=posangrad*(180/Math.PI);
 function guessBetPos(){
 	betMouseX=canvas.mouse.x-545;
 	betMouseY=(canvas.mouse.y-360)*-1;
+	if(0<betMouseX<535 && 0<betMouseY<135)
 	presentBetNum=(3*Math.floor(betMouseX/45))+(Math.ceil(betMouseY/45));
 	stopbtntext.text=betMouseX+"    "+betMouseY+"    "+presentBetNum;
+	
 
 }
 
@@ -257,7 +260,7 @@ stopbtn.bind("click tap",function(){if(spinwheel!=0) stopspin();});
 chip1.bind("click tap",function(){ chipSel=1; selectChip();});
 chip10.bind("click tap",function(){ chipSel=10; selectChip();});
 chip100.bind("click tap",function(){ chipSel=100; selectChip();});
-layout.bind("click tap",function(){ setTimeout(function(){guessBetPos();}) });
+layout.bind("click tap",function(){ setTimeout(function(){guessBetPos();},5) });
 
 
 ball.dragAndDrop({
