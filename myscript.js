@@ -15,12 +15,15 @@ var chipSel=1;
 var balanceCash=250;
 var bettingCash=0;
 var interCash=250;
-
+var win=0;
+var LuckyNum=0;
 /////////////////////////////////////////////////////////////
 
 var angles=[0,32,15,19,4,21,2,25,17,34,6,27,13,36,11,30,8,23,10,5,24,16,33,1,20,14,31,9,22,18,29,7,28,12,35,3,26];
 var chips=new Array();
 var bets={};
+var payout={0:35,112:2,212:2,312:2,118:1,222:1,200:1,300:1,111:1,218:1,401:2,402:2,403:2};
+
 
 var canvas= oCanvas.create({
 canvas: "#canvas",
@@ -122,9 +125,39 @@ function randomFromTo(from, to){
        return Math.random() * (to - from + 1) + from;
     }
 
-function chipYielder(i){
 
+function chipYielder(res, key){
+if(key>=1 && key<=36 && res==key)
+return 1;
+if(key==112 && [1,2,3,4,5,6,7,8,9,10,11,12].indexOf(res)!=-1)
+return 1;
+if(key==212 && ([13,14,15,16,17,18,19,20,21,22,23,24].indexOf(res)!=-1))
+return 1;
+if(key==312 && [25,26,27,28,29,30,31,32,33,34,35,36].indexOf(res)!=-1)
+return 1;
+if(key==118 && [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18].indexOf(res)!=-1)
+return 1;
+if(key==222 && [2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36].indexOf(res)!=-1) 
+return 1;
+if(key==200 && [1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36].indexOf(res)!=-1)
+return 1;
+if(key==300 && [2,4,6,8,10,11,13,15,17,20,22,24,26,28,29,31,33,35].indexOf(res)!=-1)
+return 1;
+if(key==111 && [1,3,5,7,9,11,13,15,17,19,21,23,25,27,29,31,33,35].indexOf(res)!=-1)
+return 1;
+if(key==218 && [19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36].indexOf(res)!=-1)
+return 1;
+if(key==401 && [1,4,7,10,13,16,19,22,25,28,31,34].indexOf(res)!=-1)
+return 1;
+if(key==402 && [2,5,8,11,14,17,20,23,26,29,32,35].indexOf(res)!=-1)
+return 1;
+if(key==403 && [3,6,9,12,15,18,21,24,27,30,33,36].indexOf(res)!=-1)
+return 1;
+if(key==0 && res==0)
+return 1;
+return 0;
 }
+
 
 function addBet(i){
 if (bets[i])
@@ -134,8 +167,7 @@ bets[i]=chipSel;
 bettingCash+=chipSel;
 interCash=balanceCash-bettingCash;
 balancetext.text=interCash;
-setTimeout
-//////Update balanceCash on dropball();
+////// Update balanceCash on dropball();
 console.log(bettingCash);
 }
 
@@ -161,6 +193,23 @@ case 100:
 }
 }
 }
+
+
+function getTurnResult(res){
+var i=0;
+
+for(key in bets)
+{	
+	pres=chipYielder(LuckyNum,key);
+	if (key>=0 && key<=36)
+	win+=((bets[key]*35*pres)+bets[key])*pres;
+	else
+	win+=((bets[key]*payout[key]*pres)+bets[key])*pres;
+
+}
+console.log("win"+win);
+}
+
 
 function reducespin(){
 if (wheelspeed>0)  setTimeout(function(){wheelspeed=(wheelspeed>0)? wheelspeed-0.005:0; reducespin();},5);
@@ -211,10 +260,11 @@ ball.y=(-1*posy)+250;
 }
 
 if (ballspdinc==0)
-{	
+{
 var x=-1*(posangle%360);
 x=Math.floor(posangle/10);
 turnOver=1;
+getTurnResult();
 console.log(x);
 //Math.floor(posangle
 }
@@ -285,10 +335,9 @@ function guessBetPos(){
 	else if(540<betMouseX && betMouseX<585 && 90<betMouseY && betMouseY<135)
 	presentBetNum=403;
 	else	presentBetNum=100;
-	
-	addBet(presentBetNum); 
+	if(presentBetNum!=100)
+		addBet(presentBetNum);
 	stopbtntext.text=betMouseX+"    "+betMouseY+"    "+presentBetNum;
-	
 
 }
 
@@ -308,6 +357,7 @@ canvas.setLoop(function(){
 		x=x<0?-x:x;
 		x=angles[Math.floor(x/10)];
 		lucknumtext.text=x;
+		LuckyNum=x;
 	}
 	
 	}).start();
@@ -318,7 +368,6 @@ ball.dragAndDrop({
 	move: function(){ stopbtntext.text="x:"+(posx)+" y:"+(posy)+" a:"+posangle;},
 	end: function(){
 		getBallPos();		
-		console.log("draggin");	
 		//stopbtntext.text=" 1:"+posx+" 2:"+posy+" 3:"+posrad+" 4:"+posangrad+" 5:"+posangle+" 6:"+ball.x+" 7:"+ball.y;
 		dropball();    ////////////For debugging remove asap
 		setTimeout(function(){stopspin();},1000);}
