@@ -21,6 +21,8 @@ var LuckyNum=0;
 
 var angles=[0,32,15,19,4,21,2,25,17,34,6,27,13,36,11,30,8,23,10,5,24,16,33,1,20,14,31,9,22,18,29,7,28,12,35,3,26];
 var chips=new Array();
+var code_chip={};
+var chip_count={};
 var bets={};
 var payout={0:35,112:2,212:2,312:2,118:1,222:1,200:1,300:1,111:1,218:1,401:2,402:2,403:2};
 var chipPos={0:[63,89],112:[185,180],212:[365,180],312:[545,180],118:[135,220],222:[230,220],200:[320,220],300:[410,220],111:[500,220],218:[590,220],401:[657,136],402:[657,86],403:[657,46]};
@@ -52,6 +54,15 @@ start:-5,
 end:5,
 opacity:0.5,
 rotation:0
+
+});
+
+var chipRect=canvas.display.rectangle({
+x:700,
+y:0,
+height:75,
+width:200,
+stroke: "5px #0f881e"
 
 });
 
@@ -90,13 +101,13 @@ stroke: "1px #000 "
 });
 
 var chip1=canvas.display.image({
-x:650,
-y:25,
+x:735,
+y:20,
 image:"chip1.png",
 });
 
-var chip10=chip1.clone({x:700, image:"chip10.png"});
-var chip100=chip1.clone({x:750, image:"chip100.png"});
+var chip10=chip1.clone({x:chip1.x+50, image:"chip10.png"});
+var chip100=chip1.clone({x:chip1.x+100, image:"chip100.png"});
 
 var stopbtn = canvas.display.rectangle({
 x:500,
@@ -139,7 +150,7 @@ function randomFromTo(from, to){
     }
 
 function generateChip(i){
-if (i>=0 && i<=36){
+if (i>=1 && i<=36){
 var chip=canvas.display.image({
 x:118+(Math.floor((i-1)/3)*45),
 y:137-(((i-1)%3)*47),
@@ -152,8 +163,8 @@ opacity:0.8
 
 else{
 var chip=canvas.display.image({
-x:0,
-y:0,
+x:chipPos[i][0],
+y:chipPos[i][1],
 width:30,
 height:30,
 origin:{x:"center",y:"center"},
@@ -161,9 +172,35 @@ image:"chip.png",
 opacity:0.8
 });}
 
-var ind=chips.push(chip);
-layout.addChild(chips[ind-1]);
 
+
+
+
+if(!code_chip[i]){
+	console.log("if"+i);
+
+	var chipcount=canvas.display.text({
+	x:0,
+	y:0,
+	origin:{x:"center",y:"center"},
+	text:0,
+	font: "bold 12px sans-serif",
+	fill: "#000"
+	});
+
+	code_chip[i]=chip;
+	chip_count[i]=chipcount;
+	chip_count[i].text=chipSel;
+	chip.addChild(chipcount);
+	var ind=chips.push(chip);
+	layout.addChild(chip);
+}
+
+
+else{
+	console.log("else"+i);
+	console.log(chip_count);
+	chip_count[i].text+=chipSel;}
 }
 
 
@@ -201,16 +238,18 @@ return 0;
 
 
 function addBet(i){
-if (bets[i])
-bets[i]+=chipSel;
-else
-bets[i]=chipSel;
-bettingCash+=chipSel;
-interCash=balanceCash-bettingCash;
-balancetext.text=interCash;
-setTimeout(function(){ generateChip(i);},2);
-////// Update balanceCash on dropball();
-console.log(bettingCash);
+if(interCash-chipSel>=0){
+	if (bets[i])
+	bets[i]+=chipSel;
+	else
+	bets[i]=chipSel;
+	bettingCash+=chipSel;
+	interCash=balanceCash-bettingCash;
+	balancetext.text=interCash;
+	setTimeout(function(){ generateChip(i);},2);
+	////// Update balanceCash on dropball();
+	console.log(bettingCash);
+	}
 }
 
 function selectChip(){
@@ -443,6 +482,7 @@ canvas.addChild(layout);
 canvas.addChild(chip1);
 canvas.addChild(chip10);
 canvas.addChild(chip100);
+canvas.addChild(chipRect);
 
 
 
