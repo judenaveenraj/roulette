@@ -23,6 +23,7 @@ var angles=[0,32,15,19,4,21,2,25,17,34,6,27,13,36,11,30,8,23,10,5,24,16,33,1,20,
 var chips=new Array();
 var bets={};
 var payout={0:35,112:2,212:2,312:2,118:1,222:1,200:1,300:1,111:1,218:1,401:2,402:2,403:2};
+var chipPos={0:[-35,67],112:[90,-17],212:[270,-17],312:[450,-17],118:[45,57],222:[135,57],200:[225,57],300:[315,57],111:[405,57],218:[495,57],401:[562,22],402:[562,67],403:[562,112]}
 
 
 var canvas= oCanvas.create({
@@ -125,6 +126,12 @@ function randomFromTo(from, to){
        return Math.random() * (to - from + 1) + from;
     }
 
+function generateChip(i){
+
+
+
+}
+
 
 function chipYielder(res, key){
 if(key>=1 && key<=36 && res==key)
@@ -167,6 +174,7 @@ bets[i]=chipSel;
 bettingCash+=chipSel;
 interCash=balanceCash-bettingCash;
 balancetext.text=interCash;
+setTimeout(function(){ generateChip(i);},2);
 ////// Update balanceCash on dropball();
 console.log(bettingCash);
 }
@@ -314,7 +322,7 @@ function guessBetPos(){
 	presentBetNum=112;
 	else if(180<betMouseX && betMouseX<360 && -35<betMouseY && betMouseY<0)
 	presentBetNum=212;
-	else if(360<betMouseX && betMouseX<520 && -35<betMouseY && betMouseY<0)
+	else if(360<betMouseX && betMouseX<540 && -35<betMouseY && betMouseY<0)
 	presentBetNum=312;
 	else if(0<betMouseX && betMouseX<90 && -80<betMouseY && betMouseY<-35)
 	presentBetNum=118;
