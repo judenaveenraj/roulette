@@ -10,10 +10,11 @@ var ballDropped=0;
 var betMouseX=0;
 var betMouseY=0;
 var presentBetNum=0;
+var chipSel=1;
 
 /////////////////////////////////////////////////////////////
 
-var angles=[33,22,6,30,1,13,27,3,18,32,10,24,4,34,16,7,12,28,2,9,25,19,14,0,23,5,31,17,35,11,2,26,29,15,8,20];
+var angles=[0,32,15,19,4,21,2,25,17,34,6,27,13,36,11,30,8,23,10,5,24,16,33,1,20,14,31,9,22,18,29,7,28,12,35,3,26];
 
 
 var canvas= oCanvas.create({
@@ -47,8 +48,10 @@ rotation:0
 var wheel=canvas.display.image({
 x:250,
 y:canvas.height/2,
+width:350,
+height:350,
 origin: {x:"center",y:"center"},
-image: "wheel.jpg",
+image: "wheel5.png",
 rotation:0
 });
 
@@ -58,7 +61,7 @@ y:canvas.height/2-50,
 width:700,
 height:300,
 origin:{x:"top", y:"left"},
-image: "roulette-table.jpg",
+image: "roulette-table.png",
 stroke: "2px #fff"
 });
 
@@ -75,6 +78,15 @@ stroke: "1px #000 "
 
 
 });
+
+var chip1=canvas.display.image({
+x:650,
+y:25,
+image:"chip1.png",
+});
+
+var chip10=chip1.clone({x:700, image:"chip10.png"});
+var chip100=chip1.clone({x:750, image:"chip100.png"});
 
 var stopbtn = canvas.display.rectangle({
 x:500,
@@ -103,6 +115,28 @@ function randomFromTo(from, to){
        return Math.random() * (to - from + 1) + from;
     }
 
+function selectChip(){
+switch(chipSel){
+case 1:
+{ chip1.opacity=1.0;
+  chip10.opacity=0.5;
+  chip100.opacity=0.5;
+  break;
+}
+case 10:
+{ chip1.opacity=0.5;
+  chip10.opacity=1.0;
+  chip100.opacity=0.5;
+  break;
+}
+case 100:
+{ chip1.opacity=0.5;
+  chip10.opacity=0.5;
+  chip100.opacity=1.0;
+  break;
+}
+}
+}
 
 function reducespin(){
 if (wheelspeed>0)  setTimeout(function(){wheelspeed=(wheelspeed>0)? wheelspeed-0.005:0; reducespin();},5);
@@ -191,10 +225,18 @@ posangle=posangrad*(180/Math.PI);
 //stopbtntext.text="x:"+posx+" y:"+posy+" a:"+posangle;
 }
 
+function guessBetPos(){
+	betMouseX=canvas.mouse.x-545;
+	betMouseY=(canvas.mouse.y-360)*-1;
+	presentBetNum=(3*Math.floor(betMouseX/45))+(Math.ceil(betMouseY/45));
+	stopbtntext.text=betMouseX+"    "+betMouseY+"    "+presentBetNum;
+
+}
 
 canvas.setLoop(function(){
 	wheel.rotation+=wheelspeed;
 	indi.rotation= (upperhalf==0)? ((ball.y<0)? posangle+180:posangle):(-1*posangle);
+	//ballspdinc=0.1;
 	//indiRot=Math.floor(indiRot/10);
 	//indi.rotation=indiRot*10;
 	//console.log(indi.rotation);
@@ -208,13 +250,14 @@ canvas.setLoop(function(){
 		x=angles[Math.floor(x/10)];
 		lucknumtext.text=x;
 	}
-	betMouseX=canvas.mouse.x-545;
-	betMouseY=(canvas.mouse.y-360)*-1;
-	presentBetNum=(3*Math.floor(betMouseX/45))+(Math.ceil(betMouseY/45));
-	stopbtntext.text=betMouseX+"    "+betMouseY+"    "+presentBetNum;
+	
 	}).start();
 
 stopbtn.bind("click tap",function(){if(spinwheel!=0) stopspin();});
+chip1.bind("click tap",function(){ chipSel=1; selectChip();});
+chip10.bind("click tap",function(){ chipSel=10; selectChip();});
+chip100.bind("click tap",function(){ chipSel=100; selectChip();});
+layout.bind("click tap",function(){ setTimeout(function(){guessBetPos();}) });
 
 
 ball.dragAndDrop({
@@ -227,6 +270,8 @@ ball.dragAndDrop({
 		
 });
 
+
+selectChip();
 stopbtn.addChild(stopbtntext);
 canvas.addChild(stopbtn);
 canvas.addChild(rect);
@@ -236,7 +281,9 @@ canvas.addChild(ball);
 lucknum.addChild(lucknumtext);
 canvas.addChild(lucknum);
 canvas.addChild(layout);
-
+canvas.addChild(chip1);
+canvas.addChild(chip10);
+canvas.addChild(chip100);
 
 
 
