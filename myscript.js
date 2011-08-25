@@ -12,6 +12,8 @@ var betMouseX=0;
 var betMouseY=0;
 var presentBetNum=0;
 var chipSel=1;
+var balanceCash=250;
+var bettingCash=0;
 
 /////////////////////////////////////////////////////////////
 
@@ -109,6 +111,8 @@ fill: "#0aa",
 
 var lucknum=stopbtn.clone({x:200, y:0});
 var lucknumtext=stopbtntext.clone({ x:lucknum.width/2, y:lucknum.height/2, text:"Waiting"});
+var balancebox=stopbtn.clone({x:400, y:0});
+var balancetext=stopbtntext.clone({ x:balancebox.width/2, y:balancebox.height/2, text:balanceCash});
 //////////////////////////////////////////////////////////////
 
 
@@ -309,6 +313,8 @@ ball.dragAndDrop({
 selectChip();
 stopbtn.addChild(stopbtntext);
 canvas.addChild(stopbtn);
+balancebox.addChild(balancetext);
+canvas.addChild(balancebox);
 canvas.addChild(rect);
 canvas.addChild(wheel);
 canvas.addChild(indi);
