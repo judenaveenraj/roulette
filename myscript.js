@@ -23,7 +23,8 @@ var angles=[0,32,15,19,4,21,2,25,17,34,6,27,13,36,11,30,8,23,10,5,24,16,33,1,20,
 var chips=new Array();
 var bets={};
 var payout={0:35,112:2,212:2,312:2,118:1,222:1,200:1,300:1,111:1,218:1,401:2,402:2,403:2};
-var chipPos={0:[-35,67],112:[90,-17],212:[270,-17],312:[450,-17],118:[45,57],222:[135,57],200:[225,57],300:[315,57],111:[405,57],218:[495,57],401:[562,22],402:[562,67],403:[562,112]}
+var chipPos={0:[63,89],112:[185,180],212:[365,180],312:[545,180],118:[135,220],222:[230,220],200:[320,220],300:[410,220],111:[500,220],218:[590,220],401:[657,136],402:[657,86],403:[657,46]};
+
 
 
 var canvas= oCanvas.create({
@@ -115,6 +116,17 @@ text:"Stop",
 fill: "#0aa",
 });
 
+
+var chip=canvas.display.image({
+x:0,
+y:0,
+width:30,
+height:30,
+origin:{x:"center",y:"center"},
+image:"chip.png",
+opacity:0.5
+});
+
 var lucknum=stopbtn.clone({x:200, y:0});
 var lucknumtext=stopbtntext.clone({ x:lucknum.width/2, y:lucknum.height/2, text:"Waiting"});
 var balancebox=stopbtn.clone({x:400, y:0});
@@ -127,8 +139,30 @@ function randomFromTo(from, to){
     }
 
 function generateChip(i){
+if (i>=0 && i<=36){
+var chip=canvas.display.image({
+x:118+(Math.floor((i-1)/3)*45),
+y:137-(((i-1)%3)*47),
+width:30,
+height:30,
+origin:{x:"center",y:"center"},
+image:"chip.png",
+opacity:0.8
+});}
 
+else{
+var chip=canvas.display.image({
+x:0,
+y:0,
+width:30,
+height:30,
+origin:{x:"center",y:"center"},
+image:"chip.png",
+opacity:0.8
+});}
 
+var ind=chips.push(chip);
+layout.addChild(chips[ind-1]);
 
 }
 
