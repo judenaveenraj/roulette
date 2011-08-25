@@ -14,7 +14,7 @@ var presentBetNum=0;
 var chipSel=1;
 var balanceCash=250;
 var bettingCash=0;
-var interCash=250;
+var interCash=balanceCash;
 var win=0;
 var LuckyNum=0;
 /////////////////////////////////////////////////////////////
@@ -141,13 +141,46 @@ opacity:0.5
 var lucknum=stopbtn.clone({x:200, y:0});
 var lucknumtext=stopbtntext.clone({ x:lucknum.width/2, y:lucknum.height/2, text:"Waiting"});
 var balancebox=stopbtn.clone({x:400, y:0});
-var balancetext=stopbtntext.clone({ x:balancebox.width/2, y:balancebox.height/2, text:balanceCash});
+var balancetext=stopbtntext.clone({ x:balancebox.width/2, y:balancebox.height/2, text:interCash});
 //////////////////////////////////////////////////////////////
-
 
 function randomFromTo(from, to){
        return Math.random() * (to - from + 1) + from;
     }
+
+function resetTurn(){
+
+spinwheel=1;
+wheelspeed=5.0;
+posx=0.0,posy=0.0,posrad=0.0,posangrad=0.0,posangle=0.0;
+ballspdinc=0.1;
+dbgctr=0;
+wheelRotStatus=1;
+upperhalf=0;
+indiRot=0;
+ballDropped=0;
+turnOver=0;
+betMouseX=0;
+betMouseY=0;
+presentBetNum=0;
+balanceCash=interCash+win;
+bettingCash=0;
+interCash=balanceCash;
+win=0;
+LuckyNum=0;
+for (key in code_chip)
+{
+	code_chip[key].removeChild(chip_count[key]);
+	layout.removeChild(code_chip[key]);
+	
+}
+chips=[];
+code_chip={};
+chip_count={};
+balancetext.text=interCash;
+canvas.redraw();
+}
+
 
 function generateChip(i){
 if (i>=1 && i<=36){
@@ -177,7 +210,6 @@ opacity:0.8
 
 
 if(!code_chip[i]){
-	console.log("if"+i);
 
 	var chipcount=canvas.display.text({
 	x:0,
@@ -198,8 +230,6 @@ if(!code_chip[i]){
 
 
 else{
-	console.log("else"+i);
-	console.log(chip_count);
 	chip_count[i].text+=chipSel;}
 }
 
@@ -288,7 +318,7 @@ for(key in bets)
 	win+=((bets[key]*payout[key]*pres)+bets[key])*pres;
 
 }
-console.log("win"+win);
+console.log("WIN: "+win);
 }
 
 
@@ -346,6 +376,7 @@ var x=-1*(posangle%360);
 x=Math.floor(posangle/10);
 turnOver=1;
 getTurnResult();
+setTimeout(function(){resetTurn();},1000);
 console.log(x);
 //Math.floor(posangle
 }
