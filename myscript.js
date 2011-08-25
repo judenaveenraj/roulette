@@ -7,6 +7,7 @@ var wheelRotStatus=1;
 var upperhalf=0; //to denote the ball is in upper half of wheel and to correct angle
 var indiRot=0;
 var ballDropped=0;
+var turnOver=0;
 var betMouseX=0;
 var betMouseY=0;
 var presentBetNum=0;
@@ -168,6 +169,7 @@ if(ballspdinc<0) ballspdinc=0;
 }
 
 function ballAccelrt(){
+if (turnOver!=1){
 //console.log(" 1:"+posx+" 2:"+posy+" 3:"+posrad+" 4:"+posangrad+" 5:"+posangle+" 6:"+ball.x+" 7:"+ball.y);
 if(upperhalf==0){
 posangle+=ballspdinc;
@@ -190,6 +192,7 @@ if (ballspdinc==0)
 {	
 var x=-1*(posangle%360);
 x=Math.floor(posangle/10);
+turnOver=1;
 console.log(x);
 //Math.floor(posangle
 }
@@ -200,6 +203,7 @@ setTimeout(function(){if(ballspdinc<1.6) incrSpd();},5);
 else
 setTimeout(function(){if (ballspdinc>0) decrSpd();},5);
 setTimeout(function(){ballAccelrt();},5);
+}
 }
 
 
@@ -229,7 +233,8 @@ posangle=posangrad*(180/Math.PI);
 function guessBetPos(){
 	betMouseX=canvas.mouse.x-545;
 	betMouseY=(canvas.mouse.y-360)*-1;
-	if(0<betMouseX<535 && 0<betMouseY<135)
+	if(0<betMouseX && betMouseX<535 && 0<betMouseY && betMouseY<135)
+	console.log("x:"+betMouseX+"y: "+betMouseY);
 	presentBetNum=(3*Math.floor(betMouseX/45))+(Math.ceil(betMouseY/45));
 	stopbtntext.text=betMouseX+"    "+betMouseY+"    "+presentBetNum;
 	
