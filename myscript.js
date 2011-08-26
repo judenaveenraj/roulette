@@ -199,27 +199,28 @@ radius:10},
 }
 
 function showProfit(){
-if(win!=0)
-{
-	var winbox=canvas.display.rectangle({
-	x:canvas.width/2,
-	y:canvas.height/2,
-	width:300,
-	height:100,
-	fill: "f00",
-	opacity:0.9
-	});
-	var wintext=canvas.display.text({
-	x:winbox.width/2+50,
-	y:winbox.height/2,
-	origin:{x:"center", y:"center"},
-	font: "bold sans-serif",
-	size: 50,
-	text:"Won",
-	align:"center",
-	fill: "#0aa",
-	opacity:1.0
-	});
+var winbox=canvas.display.rectangle({
+x:canvas.width/2,
+y:canvas.height/2,
+width:300,
+height:100,
+fill: "f00",
+opacity:0.9
+});
+var wintext=canvas.display.text({
+x:winbox.width/2+50,
+y:winbox.height/2,
+origin:{x:"center", y:"center"},
+font: "bold sans-serif",
+size: 50,
+align:"center",
+fill: "#0aa",
+opacity:1.0
+});
+	if(win!=0)
+	wintext.text="Won: "+win;
+	else
+	wintext.text="Won: 0";
 	winbox.addChild(wintext);
 	canvas.addChild(winbox);
 	setTimeout(function(){
@@ -239,7 +240,7 @@ if(win!=0)
 			}
 		);
 	},2000);
-	}
+	
 }
 
 function generateChip(i){
@@ -444,9 +445,7 @@ x=Math.floor(posangle/10);
 turnOver=1;
 getTurnResult();
 console.log(x);
-//Math.floor(posangle
 }
-//console.log(" 1:"+posx+" 2:"+posy+" 3:"+posrad+" 4:"+posangrad+" 5:"+posangle+" 6:"+ball.x+" 7:"+ball.y);
 setTimeout(function(){if (posrad<130) incrRadius();},5);
 if (wheelRotStatus==1)
 setTimeout(function(){if(ballspdinc<1.6) incrSpd();},5);
@@ -457,8 +456,14 @@ setTimeout(function(){ballAccelrt();},5);
 }
 
 function checkBallWithinWheel(){
+var x=ball.x,y=ball.y;
+x-=wheel.x;
+y-=wheel.y;
+var r=Math.sqrt(Math.pow(x,2)+Math.pow(y,2));
+if (r<130)
 return true;
-
+else
+return false;
 }
 
 function dropball(){
