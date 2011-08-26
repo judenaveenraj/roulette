@@ -563,7 +563,7 @@ stopbtn.bind("click tap",function(){if(spinwheel!=0) stopspin();});
 chip1.bind("click tap",function(){ chipSel=1; selectChip();});
 chip10.bind("click tap",function(){ chipSel=10; selectChip();});
 chip100.bind("click tap",function(){ chipSel=100; selectChip();});
-layout.bind("click tap",function(){ setTimeout(function(){guessBetPos();},5) });
+layout.bind("click tap",function(){ if(ballDropped==0)setTimeout(function(){guessBetPos();},5) });
 
 
 
