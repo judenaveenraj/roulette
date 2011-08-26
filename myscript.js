@@ -195,31 +195,28 @@ function generateChip(i){
 if (i>=1 && i<=36){
 var chip=canvas.display.image({
 x:118+(Math.floor((i-1)/3)*45),
-y:137-(((i-1)%3)*47),
+y:137-(((i-1)%3)*47)-50,	//-50 for animation
 width:30,
 height:30,
 origin:{x:"center",y:"center"},
 image:"chip.png",
-opacity:0.8
+opacity:0.0
 });}
 
 else{
 var chip=canvas.display.image({
 x:chipPos[i][0],
-y:chipPos[i][1],
+y:chipPos[i][1]-50,		//-50 for animation
 width:30,
 height:30,
 origin:{x:"center",y:"center"},
 image:"chip.png",
-opacity:0.8
+opacity:0.0
 });}
-
-
-
-
 
 if(!code_chip[i]){
 
+	
 	var chipcount=canvas.display.text({
 	x:0,
 	y:0,
@@ -228,13 +225,15 @@ if(!code_chip[i]){
 	font: "bold 12px sans-serif",
 	fill: "#000"
 	});
-
+	
 	code_chip[i]=chip;
 	chip_count[i]=chipcount;
 	chip_count[i].text=chipSel;
 	chip.addChild(chipcount);
 	var ind=chips.push(chip);
 	layout.addChild(chip);
+chip.animate({opacity:0.8, y:chip.y+50},"short","ease-in-out");
+
 }
 
 
