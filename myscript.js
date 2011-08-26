@@ -573,7 +573,6 @@ layout.bind("click tap",function(){ setTimeout(function(){guessBetPos();},5) });
 
 
 
-
 stopbtn.addChild(stopbtntext);
 canvas.addChild(stopbtn);
 balancebox.addChild(balancetext);
