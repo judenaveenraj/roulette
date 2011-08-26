@@ -213,7 +213,7 @@ y:winbox.height/2,
 origin:{x:"center", y:"center"},
 font: "bold sans-serif",
 size: 50,
-align:"center",
+align:"left",
 fill: "#0aa",
 opacity:1.0
 });
@@ -443,7 +443,7 @@ if (ballspdinc==0)
 var x=-1*(posangle%360);
 x=Math.floor(posangle/10);
 turnOver=1;
-getTurnResult();
+setTimeout(function(){getTurnResult();},1);
 console.log(x);
 }
 setTimeout(function(){if (posrad<130) incrRadius();},5);
@@ -528,11 +528,7 @@ function guessBetPos(){
 canvas.setLoop(function(){
 	wheel.rotation+=wheelspeed;
 	indi.rotation= (upperhalf==0)? ((ball.y<0)? posangle+180:posangle):(-1*posangle);
-	//ballspdinc=0.1;
-	//indiRot=Math.floor(indiRot/10);
-	//indi.rotation=indiRot*10;
-	//console.log(indi.rotation);
-	stopbtntext.text=win;
+	stopbtntext.text=ballDropped+"  "+bettingCash+"   "+checkBallWithinWheel();
 	if (wheel.rotation==360) wheel.rotation=0;
 	if(ballDropped==1)
 	{
