@@ -149,7 +149,9 @@ function randomFromTo(from, to){
     }
 
 function resetTurn(){
-
+wheel.rotation=0;
+indi.rotation=0;
+ballDropped=0;
 spinwheel=1;
 wheelspeed=5.0;
 posx=0.0,posy=0.0,posrad=0.0,posangrad=0.0,posangle=0.0;
@@ -158,7 +160,6 @@ dbgctr=0;
 wheelRotStatus=1;
 upperhalf=0;
 indiRot=0;
-ballDropped=0;
 turnOver=0;
 betMouseX=0;
 betMouseY=0;
@@ -190,6 +191,44 @@ radius:10},
 "long","ease-in-out");
 }
 
+function showProfit(){
+if(win!=0)
+{
+	var win=canvas.display.rectangle({
+	x:canvas.width/2,
+	y:canvas.height/2,
+	width:300,
+	height:100,
+	fill: "f00",
+	opacity:0.9
+	});
+	var wintext=canvas.display.text({
+	x:0,
+	y:0,
+	origin:{x:"center", y:"center"},
+	font: "bold 50px sans-serif",
+	text:"Won",
+	align:"center",
+	fill: "#0aa",
+	});
+	win.addChild(wintext);
+	canvas.addChild(win);
+	setTimeout(function(){
+		win.animate({
+			x:balancebox.x,
+			y:balancebox.y,
+			width:balancebox.width,
+			height:balancebox.height,
+			opacity:0.0},"short","ease-in-out",
+			function(){
+			win.removeChild(wintext);
+			canvas.removeChild(win);
+			resetTurn();
+			}
+		);
+	},2000);
+	}
+}
 
 function generateChip(i){
 if (i>=1 && i<=36){
@@ -232,7 +271,7 @@ if(!code_chip[i]){
 	chip.addChild(chipcount);
 	var ind=chips.push(chip);
 	layout.addChild(chip);
-chip.animate({opacity:0.8, y:chip.y+50},"short","ease-in-out");
+chip.animate({opacity:0.8, y:chip.y+50},"450","ease-in-out");
 
 }
 
@@ -291,26 +330,33 @@ if(interCash-chipSel>=0){
 }
 
 function selectChip(){
+var c1,c10,c100;
 switch(chipSel){
 case 1:
-{ chip1.opacity=1.0;
-  chip10.opacity=0.5;
-  chip100.opacity=0.5;
+{ c1=1.0;
+  c10=0.5;
+  c100=0.5;
   break;
 }
 case 10:
-{ chip1.opacity=0.5;
-  chip10.opacity=1.0;
-  chip100.opacity=0.5;
+{ c1=0.5;
+  c10=1.0;
+  c100=0.5;
   break;
 }
 case 100:
-{ chip1.opacity=0.5;
-  chip10.opacity=0.5;
-  chip100.opacity=1.0;
+{ c1=0.5;
+  c10=0.5;
+  c100=1.0;
   break;
 }
 }
+console.log(c1+" "+c10+" "+c100);
+chip1.animate({opacity:c1},"200","ease-in-out");
+chip10.animate({opacity:c10},"200","ease-in-out");
+chip100.animate({opacity:c100},"200","ease-in-out");
+
+
 }
 
 
@@ -326,6 +372,7 @@ for(key in bets)
 	win+=((bets[key]*payout[key]*pres)+bets[key])*pres;
 
 }
+showProfit();
 console.log("WIN: "+win);
 }
 
@@ -384,7 +431,6 @@ var x=-1*(posangle%360);
 x=Math.floor(posangle/10);
 turnOver=1;
 getTurnResult();
-setTimeout(function(){resetTurn();},1000);
 console.log(x);
 //Math.floor(posangle
 }
@@ -398,16 +444,17 @@ setTimeout(function(){ballAccelrt();},5);
 }
 }
 
+function checkBallWithinWheel(){
+
+
+}
 
 function dropball(){
 ball.dragAndDrop(false);
 ballDropped=1;
 balanceCash-=bettingCash;  ///Update balance Cash on start turn
-if(ball.radius>6)
-	setTimeout(function(){
-		ball.radius-=0.5;
-		dropball(); },75);
-else ballAccelrt();
+ball.animate({radius:6},"600","ease-out");
+setTimeout(function(){ ballAccelrt();},0);
 }
 
 
@@ -487,10 +534,12 @@ if(ballDropped==0){
 ball.dragAndDrop({
 	move: function(){ stopbtntext.text="x:"+(posx)+" y:"+(posy)+" a:"+posangle;},
 	end: function(){
-		getBallPos();		
-		//stopbtntext.text=" 1:"+posx+" 2:"+posy+" 3:"+posrad+" 4:"+posangrad+" 5:"+posangle+" 6:"+ball.x+" 7:"+ball.y;
-		dropball();    ////////////For debugging remove asap
-		setTimeout(function(){stopspin();},1000);}
+		if(ballDropped==0 && bettingCash!=0 && checkBallWithinWheel())
+		{
+			getBallPos();		
+			dropball();    ////////////For debugging remove asap
+			setTimeout(function(){stopspin();},1000);}
+		}
 		
 });}
 ball.bind("mouseleave",function(){ball.dragAndDrop(false);});
@@ -506,7 +555,7 @@ layout.bind("click tap",function(){ setTimeout(function(){guessBetPos();},5) });
 
 
 
-selectChip();
+
 stopbtn.addChild(stopbtntext);
 canvas.addChild(stopbtn);
 balancebox.addChild(balancetext);
@@ -522,6 +571,6 @@ canvas.addChild(chip1);
 canvas.addChild(chip10);
 canvas.addChild(chip100);
 canvas.addChild(chipRect);
-
+selectChip();
 
 
