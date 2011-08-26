@@ -169,7 +169,6 @@ bettingCash=0;
 interCash=balanceCash;
 win=0;
 LuckyNum=0;
-setTimeout(function(){resetBallPos();});
 for (key in code_chip)
 {
 	code_chip[key].removeChild(chip_count[key]);
@@ -195,7 +194,9 @@ ball.animate({
 x:50,
 y:50,
 radius:10},
-"long","ease-in-out");
+"normal","ease-in-out",function(){ballDropped=0; });
+console.log("resetting");
+resetTurn();
 }
 
 function showProfit(){
@@ -223,6 +224,7 @@ opacity:1.0
 	wintext.text="Won: 0";
 	winbox.addChild(wintext);
 	canvas.addChild(winbox);
+	setTimeout(function(){resetBallPos();});
 	setTimeout(function(){
 		wintext.animate(
 		{size:15,x:65,y:25,opacity:0.3},"normal","ease-in-out");
@@ -235,8 +237,7 @@ opacity:1.0
 			function(){
 			winbox.removeChild(wintext);
 			canvas.removeChild(winbox);
-			console.log("resetting");
-			resetTurn();
+			
 			}
 		);
 	},2000);
@@ -475,7 +476,10 @@ setTimeout(function(){ ballAccelrt();},600);
 }
 
 
+function addBallDropAction(){
 
+
+}
 function getBallPos(){
 posx=ball.x-250;
 posy=ball.y-250;
@@ -544,17 +548,19 @@ canvas.setLoop(function(){
 	}).start();
 
 ball.bind("mouseenter",function(){  
+console.log("juz entered");
 if(ballDropped==0){
 ball.dragAndDrop({
 	move: function(){ stopbtntext.text="x:"+(posx)+" y:"+(posy)+" a:"+posangle;},
 	end: function(){
+		console.log("i am inside");
 		if(ballDropped==0 && bettingCash!=0 && checkBallWithinWheel())
 		{
 			getBallPos();		
 			dropball();    ////////////For debugging remove asap
 			setTimeout(function(){stopspin();},1000);}
 		}
-		
+	
 });}
 ball.bind("mouseleave",function(){ball.dragAndDrop(false);});
 
