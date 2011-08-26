@@ -168,6 +168,7 @@ bettingCash=0;
 interCash=balanceCash;
 win=0;
 LuckyNum=0;
+setTimeout(function(){resetBallPos();});
 for (key in code_chip)
 {
 	code_chip[key].removeChild(chip_count[key]);
@@ -179,6 +180,14 @@ code_chip={};
 chip_count={};
 balancetext.text=interCash;
 canvas.redraw();
+}
+
+function resetBallPos(){
+ball.animate({
+x:50,
+y:50,
+radius:10},
+"long","ease-in-out");
 }
 
 
@@ -463,11 +472,11 @@ canvas.setLoop(function(){
 	if (wheel.rotation==360) wheel.rotation=0;
 	if(ballDropped==1)
 	{
-		var x=(posangle-5)*-1;
+		var x=(posangle-4.8648)*-1;
 		x=x-wheel.rotation;
 		x=x%360;
 		x=x<0?-x:x;
-		x=angles[Math.floor(x/10)];
+		x=angles[Math.floor(x/9.7297)];
 		lucknumtext.text=x;
 		LuckyNum=x;
 	}
