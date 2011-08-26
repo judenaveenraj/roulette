@@ -203,23 +203,27 @@ if(win!=0)
 	opacity:0.9
 	});
 	var wintext=canvas.display.text({
-	x:0,
-	y:0,
+	x:win.width/2+50,
+	y:win.height/2,
 	origin:{x:"center", y:"center"},
-	font: "bold 50px sans-serif",
+	font: "bold sans-serif",
+	size: 50,
 	text:"Won",
 	align:"center",
 	fill: "#0aa",
+	opacity:1.0
 	});
 	win.addChild(wintext);
 	canvas.addChild(win);
 	setTimeout(function(){
+		wintext.animate(
+		{size:15,x:65,y:25,opacity:0.3},"normal","ease-in-out");
 		win.animate({
 			x:balancebox.x,
 			y:balancebox.y,
 			width:balancebox.width,
 			height:balancebox.height,
-			opacity:0.0},"short","ease-in-out",
+			opacity:0.0},"normal","ease-in-out",
 			function(){
 			win.removeChild(wintext);
 			canvas.removeChild(win);
@@ -445,7 +449,7 @@ setTimeout(function(){ballAccelrt();},5);
 }
 
 function checkBallWithinWheel(){
-
+return true;
 
 }
 
@@ -454,7 +458,7 @@ ball.dragAndDrop(false);
 ballDropped=1;
 balanceCash-=bettingCash;  ///Update balance Cash on start turn
 ball.animate({radius:6},"600","ease-out");
-setTimeout(function(){ ballAccelrt();},0);
+setTimeout(function(){ ballAccelrt();},600);
 }
 
 
