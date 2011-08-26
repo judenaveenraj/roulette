@@ -177,8 +177,15 @@ for (key in code_chip)
 	
 }
 chips=[];
-code_chip={};
-chip_count={};
+for (key in code_chip)
+delete code_chip[key];
+for (key in chip_count)
+delete chip_count[key];
+for (key in bets)
+delete bets[key];
+console.log(chips);
+console.log(code_chip);
+console.log(chip_count);
 balancetext.text=interCash;
 canvas.redraw();
 }
@@ -194,7 +201,7 @@ radius:10},
 function showProfit(){
 if(win!=0)
 {
-	var win=canvas.display.rectangle({
+	var winbox=canvas.display.rectangle({
 	x:canvas.width/2,
 	y:canvas.height/2,
 	width:300,
@@ -203,8 +210,8 @@ if(win!=0)
 	opacity:0.9
 	});
 	var wintext=canvas.display.text({
-	x:win.width/2+50,
-	y:win.height/2,
+	x:winbox.width/2+50,
+	y:winbox.height/2,
 	origin:{x:"center", y:"center"},
 	font: "bold sans-serif",
 	size: 50,
@@ -213,20 +220,21 @@ if(win!=0)
 	fill: "#0aa",
 	opacity:1.0
 	});
-	win.addChild(wintext);
-	canvas.addChild(win);
+	winbox.addChild(wintext);
+	canvas.addChild(winbox);
 	setTimeout(function(){
 		wintext.animate(
 		{size:15,x:65,y:25,opacity:0.3},"normal","ease-in-out");
-		win.animate({
+		winbox.animate({
 			x:balancebox.x,
 			y:balancebox.y,
 			width:balancebox.width,
 			height:balancebox.height,
 			opacity:0.0},"normal","ease-in-out",
 			function(){
-			win.removeChild(wintext);
-			canvas.removeChild(win);
+			winbox.removeChild(wintext);
+			canvas.removeChild(winbox);
+			console.log("resetting");
 			resetTurn();
 			}
 		);
@@ -519,6 +527,7 @@ canvas.setLoop(function(){
 	//indiRot=Math.floor(indiRot/10);
 	//indi.rotation=indiRot*10;
 	//console.log(indi.rotation);
+	stopbtntext.text=win;
 	if (wheel.rotation==360) wheel.rotation=0;
 	if(ballDropped==1)
 	{
