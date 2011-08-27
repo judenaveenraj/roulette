@@ -476,10 +476,9 @@ setTimeout(function(){ ballAccelrt();},600);
 }
 
 
-function addBallDropAction(){
 
 
-}
+
 function getBallPos(){
 posx=ball.x-250;
 posy=ball.y-250;
@@ -547,9 +546,15 @@ canvas.setLoop(function(){
 	
 	}).start();
 
-ball.bind("mouseenter",function(){  
-console.log("juz entered");
-if(ballDropped==0){
+
+
+
+stopbtn.bind("click tap",function(){if(spinwheel!=0) stopspin();});
+chip1.bind("click tap",function(){ chipSel=1; selectChip();});
+chip10.bind("click tap",function(){ chipSel=10; selectChip();});
+chip100.bind("click tap",function(){ chipSel=100; selectChip();});
+layout.bind("click tap",function(){ if(ballDropped==0)setTimeout(function(){guessBetPos();},5) });
+
 ball.dragAndDrop({
 	move: function(){ stopbtntext.text="x:"+(posx)+" y:"+(posy)+" a:"+posangle;},
 	end: function(){
@@ -558,20 +563,11 @@ ball.dragAndDrop({
 		{
 			getBallPos();		
 			dropball();    ////////////For debugging remove asap
-			setTimeout(function(){stopspin();},1000);}
+			setTimeout(function(){stopspin();},1000);
+		}
 		}
 	
-});}
-ball.bind("mouseleave",function(){ball.dragAndDrop(false);});
-
-   });
-stopbtn.bind("click tap",function(){if(spinwheel!=0) stopspin();});
-chip1.bind("click tap",function(){ chipSel=1; selectChip();});
-chip10.bind("click tap",function(){ chipSel=10; selectChip();});
-chip100.bind("click tap",function(){ chipSel=100; selectChip();});
-layout.bind("click tap",function(){ if(ballDropped==0)setTimeout(function(){guessBetPos();},5) });
-
-
+	});
 
 
 
