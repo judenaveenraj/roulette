@@ -564,8 +564,13 @@ chip100.bind("click tap",function(){ chipSel=100; selectChip();});
 layout.bind("click tap",function(){ if(ballDropped==0)setTimeout(function(){guessBetPos();},5) });
 
 
+<<<<<<< HEAD
 //ball.bind("mouseenter",function(){  
 //if(ballDropped==0){
+=======
+ball.bind("mouseenter",function(){  
+if(ballDropped==0){
+>>>>>>> 415ec230b255bfc789a653718a1b9f3bb2a58972
 ball.dragAndDrop({
 	move: function(){ stopbtntext.text="x:"+(posx)+" y:"+(posy)+" a:"+posangle;},
 	end: function(){
@@ -576,11 +581,26 @@ ball.dragAndDrop({
 			setTimeout(function(){stopspin();},1000);
 		}
 		}	
+<<<<<<< HEAD
 	});//}
 //
 //ball.bind("mouseleave",function(){ball.dragAndDrop(false);});
 
 // });
+=======
+	});
+
+	}	
+});
+ball.bind("mouseleave",function(){ball.dragAndDrop(false);});
+
+   //});
+stopbtn.bind("click tap",function(){if(spinwheel!=0) stopspin();});
+chip1.bind("click tap",function(){ chipSel=1; selectChip();});
+chip10.bind("click tap",function(){ chipSel=10; selectChip();});
+chip100.bind("click tap",function(){ chipSel=100; selectChip();});
+layout.bind("click tap",function(){ if(ballDropped==0)setTimeout(function(){guessBetPos();},5) });
+>>>>>>> 415ec230b255bfc789a653718a1b9f3bb2a58972
 
 
 
