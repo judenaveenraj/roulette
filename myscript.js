@@ -392,6 +392,46 @@ console.log("WIN: "+win);
 }
 
 
+
+function guessBetPos(){
+	betMouseX=canvas.mouse.x-545;
+	betMouseY=(canvas.mouse.y-360)*-1;
+	if(0<betMouseX && betMouseX<535 && 0<betMouseY && betMouseY<135)
+	presentBetNum=(3*Math.floor(betMouseX/45))+(Math.ceil(betMouseY/45));
+	else if(-70<betMouseX && betMouseX<0 && 0<betMouseY && betMouseY<135)
+	presentBetNum=0;
+	else if(0<betMouseX && betMouseX<180 && -35<betMouseY && betMouseY<0)
+	presentBetNum=112;
+	else if(180<betMouseX && betMouseX<360 && -35<betMouseY && betMouseY<0)
+	presentBetNum=212;
+	else if(360<betMouseX && betMouseX<540 && -35<betMouseY && betMouseY<0)
+	presentBetNum=312;
+	else if(0<betMouseX && betMouseX<90 && -80<betMouseY && betMouseY<-35)
+	presentBetNum=118;
+	else if(90<betMouseX && betMouseX<180 && -80<betMouseY && betMouseY<-35)
+	presentBetNum=222;
+	else if(180<betMouseX && betMouseX<270 && -80<betMouseY && betMouseY<-35)
+	presentBetNum=200;
+	else if(270<betMouseX && betMouseX<360 && -80<betMouseY && betMouseY<-35)
+	presentBetNum=300;
+	else if(360<betMouseX && betMouseX<450 && -80<betMouseY && betMouseY<-35)
+	presentBetNum=111;
+	else if(450<betMouseX && betMouseX<540 && -80<betMouseY && betMouseY<-35)
+	presentBetNum=218;
+	else if(540<betMouseX && betMouseX<585 && 0<betMouseY && betMouseY<45)
+	presentBetNum=401;
+	else if(540<betMouseX && betMouseX<585 && 45<betMouseY && betMouseY<90)
+	presentBetNum=402;
+	else if(540<betMouseX && betMouseX<585 && 90<betMouseY && betMouseY<135)
+	presentBetNum=403;
+	else	presentBetNum=100;
+	if(presentBetNum!=100)
+		addBet(presentBetNum);
+	stopbtntext.text=betMouseX+"    "+betMouseY+"    "+presentBetNum ;
+
+}
+
+
 function reducespin(){
 if (wheelspeed>0)  setTimeout(function(){wheelspeed=(wheelspeed>0)? wheelspeed-0.005:0; reducespin();},5);
 else wheelspeed=0;
@@ -478,6 +518,7 @@ ball.dragAndDrop({
 	end: function(){
 		if(ballDropped==0 && bettingCash!=0 && checkBallWithinWheel())
 		{
+
 			console.log("asdasdasd");
 			getBallPos();		
 			dropball();    ////////////For debugging remove asap
@@ -486,6 +527,36 @@ ball.dragAndDrop({
 		}	
 	});
 ballDropped=1;
+/*	{
+	if(upperhalf==0){
+		var x=(posangle-4.8648);
+		alert(x+"   "+posx+"   "+posy+"      "+wheel.rotation);		
+		x=x+(360-wheel.rotation);	
+		alert(x+"   "+posx+"   "+posy+"      "+wheel.rotation);
+		x=x%360;
+		x=x<0?-x	:x;
+		alert(x+"   "+posx+"   "+posy+"      "+wheel.rotation);
+		alert(Math.floor(x/9.7297));
+		x=angles[Math.floor(x/9.7297)];
+		lucknumtext.text=x;
+		LuckyNum=x;
+		alert(LuckyNum);}
+
+	if(upperhalf==1){
+		var x=(posangle-4.8648)*-1;
+		alert(x+"   "+posx+"   "+posy+"      "+wheel.rotation);		
+		x=x-wheel.rotation;	
+		alert(x+"   "+posx+"   "+posy+"      "+wheel.rotation);
+		x=x%360;
+		x=x<0?-x	:x;
+		alert(x+"   "+posx+"   "+posy+"      "+wheel.rotation);
+		alert(Math.floor(x/9.7297));
+		x=angles[Math.floor(x/9.7297)];
+		lucknumtext.text=x;
+		LuckyNum=x;
+		alert(LuckyNum);}
+	}
+*/
 balanceCash-=bettingCash;  ///Update balance Cash on start turn
 ball.animate({radius:6},"600","ease-out");
 setTimeout(function(){ ballAccelrt();},600);
@@ -493,53 +564,16 @@ setTimeout(function(){ ballAccelrt();},600);
 
 
 
+
 function getBallPos(){
-posx=ball.x-185;
-posy=ball.y-315;
-if (posy<0)
-upperhalf=1;
-posrad=Math.sqrt(Math.pow(posx,2)+Math.pow(posy,2));
-posangrad=Math.acos(posx/posrad);
-posangle=posangrad*(180/Math.PI);
-//stopbtntext.text="x:"+posx+" y:"+posy+" a:"+posangle;
-}
-
-function guessBetPos(){
-	betMouseX=canvas.mouse.x-545;
-	betMouseY=(canvas.mouse.y-360)*-1;
-	if(0<betMouseX && betMouseX<535 && 0<betMouseY && betMouseY<135)
-	presentBetNum=(3*Math.floor(betMouseX/45))+(Math.ceil(betMouseY/45));
-	else if(-70<betMouseX && betMouseX<0 && 0<betMouseY && betMouseY<135)
-	presentBetNum=0;
-	else if(0<betMouseX && betMouseX<180 && -35<betMouseY && betMouseY<0)
-	presentBetNum=112;
-	else if(180<betMouseX && betMouseX<360 && -35<betMouseY && betMouseY<0)
-	presentBetNum=212;
-	else if(360<betMouseX && betMouseX<540 && -35<betMouseY && betMouseY<0)
-	presentBetNum=312;
-	else if(0<betMouseX && betMouseX<90 && -80<betMouseY && betMouseY<-35)
-	presentBetNum=118;
-	else if(90<betMouseX && betMouseX<180 && -80<betMouseY && betMouseY<-35)
-	presentBetNum=222;
-	else if(180<betMouseX && betMouseX<270 && -80<betMouseY && betMouseY<-35)
-	presentBetNum=200;
-	else if(270<betMouseX && betMouseX<360 && -80<betMouseY && betMouseY<-35)
-	presentBetNum=300;
-	else if(360<betMouseX && betMouseX<450 && -80<betMouseY && betMouseY<-35)
-	presentBetNum=111;
-	else if(450<betMouseX && betMouseX<540 && -80<betMouseY && betMouseY<-35)
-	presentBetNum=218;
-	else if(540<betMouseX && betMouseX<585 && 0<betMouseY && betMouseY<45)
-	presentBetNum=401;
-	else if(540<betMouseX && betMouseX<585 && 45<betMouseY && betMouseY<90)
-	presentBetNum=402;
-	else if(540<betMouseX && betMouseX<585 && 90<betMouseY && betMouseY<135)
-	presentBetNum=403;
-	else	presentBetNum=100;
-	if(presentBetNum!=100)
-		addBet(presentBetNum);
-	stopbtntext.text=betMouseX+"    "+betMouseY+"    "+presentBetNum ;
-
+	posx=ball.x-185;
+	posy=ball.y-315;
+	if (posy<0)
+		upperhalf=1;
+	posrad=Math.sqrt(Math.pow(posx,2)+Math.pow(posy,2));
+	posangrad=Math.acos(posx/posrad);
+	posangle=posangrad*(180/Math.PI);
+	//stopbtntext.text="x:"+posx+" y:"+posy+" a:"+posangle;
 }
 
 canvas.setLoop(function(){
@@ -549,15 +583,23 @@ canvas.setLoop(function(){
 	if (wheel.rotation==360) wheel.rotation=0;
 	if(ballDropped==1)
 	{
-		var x=(posangle-4.8648)*-1;
-		x=x-wheel.rotation;
-		//if (upperhalf==0)
-		//	x=x-180;		
+	if(upperhalf==0){
+		var x=(posangle+4.8648);
+		x=x+(360-wheel.rotation);	
+		x=x%360;
+		x=x<0?-x	:x;
+		x=angles[Math.floor(x/9.7297)];
+		lucknumtext.text=x;
+		LuckyNum=x;
+	}
+	else{	var x=(posangle-4.8648)*-1;
+		x=x-wheel.rotation;		
 		x=x%360;
 		x=x<0?-x:x;
 		x=angles[Math.floor(x/9.7297)];
 		lucknumtext.text=x;
 		LuckyNum=x;
+	}
 	}
 	
 	}).start();
@@ -571,9 +613,6 @@ chip100.bind("click tap",function(){ chipSel=100; selectChip();});
 layout.bind("click tap",function(){ if(ballDropped==0)setTimeout(function(){guessBetPos();},5) });
 
 
-
-//ball.bind("mouseenter",function(){  
-//if(ballDropped==0){
 
 ball.bind("mouseenter",function(){  
 if(ballDropped==0){
