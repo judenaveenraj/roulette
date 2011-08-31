@@ -1,3 +1,4 @@
+(window.onload=function(){
 var spinwheel=1;
 var wheelspeed=5.0;
 var posx=0.0,posy=0.0,posrad=0.0,posangrad=0.0,posangle=0.0;
@@ -533,14 +534,14 @@ function guessBetPos(){
 	else	presentBetNum=100;
 	if(presentBetNum!=100)
 		addBet(presentBetNum);
-	stopbtntext.text=betMouseX+"    "+betMouseY+"    "+presentBetNum;
+	stopbtntext.text=betMouseX+"    "+betMouseY+"    "+presentBetNum ;
 
 }
 
 canvas.setLoop(function(){
 	wheel.rotation+=wheelspeed;
 	indi.rotation= (upperhalf==0)? ((ball.y<0)? posangle+180:posangle):(-1*posangle);
-	stopbtntext.text=ballDropped+"  "+bettingCash+"   "+checkBallWithinWheel();
+	stopbtntext.text=ballspdinc;//ballDropped+"  "+bettingCash+"   "+checkBallWithinWheel();
 	if (wheel.rotation==360) wheel.rotation=0;
 	if(ballDropped==1)
 	{
@@ -583,10 +584,6 @@ ball.dragAndDrop({
 		}	
 
 	});
-//
-//ball.bind("mouseleave",function(){ball.dragAndDrop(false);});
-
-// }
 	}	
 });
 ball.bind("mouseleave",function(){ball.dragAndDrop(false);});
@@ -614,5 +611,8 @@ canvas.addChild(chip10);
 canvas.addChild(chip100);
 canvas.addChild(chipRect);
 selectChip();
+
+});
+
 
 
