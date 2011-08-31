@@ -45,8 +45,8 @@ stroke: " 10px #239 "
 });
 
 var indi=canvas.display.arc({
-x:250,
-y:canvas.height/2,
+x:185,
+y:315,
 origin:{x:"center",y:"center"},
 radius:90,
 stroke:"100px #fff",
@@ -67,12 +67,12 @@ stroke: "5px #0f881e"
 });
 
 var wheel=canvas.display.image({
-x:250,
-y:canvas.height/2,
+x:185,
+y:315,
 width:350,
 height:350,
 origin: {x:"center",y:"center"},
-image: "2.png",
+image: "5.png",
 rotation:0
 });
 
@@ -82,7 +82,6 @@ y:canvas.height/2-50,
 width:700,
 height:300,
 origin:{x:"top", y:"left"},
-stroke: "2px #a24"
 });
 
 var ball= canvas.display.arc({
@@ -438,16 +437,16 @@ posangle+=ballspdinc;
 posangrad=posangle*(Math.PI/180);
 posx=posrad*Math.cos(posangrad);
 posy=posrad*Math.sin(posangrad);
-ball.x=posx+250;
-ball.y=posy+250;
+ball.x=posx+185;
+ball.y=posy+315;
 }
 else{
 posangle-=ballspdinc;
 posangrad=posangle*(Math.PI/180);
 posx=posrad*Math.cos(posangrad);
 posy=posrad*Math.sin(posangrad);
-ball.x=(1*posx)+250;
-ball.y=(-1*posy)+250;
+ball.x=(1*posx)+185;
+ball.y=(-1*posy)+315;
 }
 
 if (ballspdinc==0)
@@ -501,8 +500,8 @@ setTimeout(function(){ ballAccelrt();},600);
 
 
 function getBallPos(){
-posx=ball.x-250;
-posy=ball.y-250;
+posx=ball.x-185;
+posy=ball.y-315;
 if (posy<0)
 upperhalf=1;
 posrad=Math.sqrt(Math.pow(posx,2)+Math.pow(posy,2));
