@@ -32,8 +32,14 @@ var chipPos={0:[63,89],112:[185,180],212:[365,180],312:[545,180],118:[135,220],2
 
 var canvas= oCanvas.create({
 canvas: "#canvas",
-background: "#5aa064",
+//background: "#5aa064",
 fps:30
+});
+
+var bg=canvas.display.image({
+x:0,y:0,
+image:"1.png"
+
 });
 
 
@@ -73,7 +79,7 @@ y:canvas.height/2,
 width:350,
 height:350,
 origin: {x:"center",y:"center"},
-image: "wheel5.png",
+image: "2.png",
 rotation:0
 });
 
@@ -83,7 +89,7 @@ y:canvas.height/2-50,
 width:700,
 height:300,
 origin:{x:"top", y:"left"},
-image: "roulette-table.png",
+image: "3.png",
 stroke: "2px #fff"
 });
 
@@ -409,7 +415,7 @@ xmlhttp.onreadystatechange=function()
     alert(xmlhttp.responseText);
     }
   }
-xmlhttp.open("GET","http://127.0.0.1/randomizer.php",false);
+xmlhttp.open("GET","randomizer.php",false);
 xmlhttp.send();
 ///------END AJAX REQUEST-------///
 
@@ -607,7 +613,7 @@ ball.bind("mouseleave",function(){ball.dragAndDrop(false);});
 
 
 
-
+canvas.addChild(bg);
 stopbtn.addChild(stopbtntext);
 canvas.addChild(stopbtn);
 balancebox.addChild(balancetext);
