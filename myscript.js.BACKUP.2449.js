@@ -1,4 +1,3 @@
-(window.onload=function(){
 var spinwheel=1;
 var wheelspeed=5.0;
 var posx=0.0,posy=0.0,posrad=0.0,posangrad=0.0,posangle=0.0;
@@ -399,21 +398,8 @@ if(wheelspeed==0 && wheelRotStatus==1) { wheelRotStatus=0; decrSpd();}
 
 function stopspin(){
 spinwheel=0;
-///------AJAX REQUEST TO RANDOMIZE-------///
-var xmlhttp;
-xmlhttp=new XMLHttpRequest();
-xmlhttp.onreadystatechange=function()
-  {
-  if (xmlhttp.readyState==4 && xmlhttp.status==200)
-    {
-    alert(xmlhttp.responseText);
-    }
-  }
-xmlhttp.open("GET","http://127.0.0.1/randomizer.php",false);
-xmlhttp.send();
-///------END AJAX REQUEST-------///
-
-setTimeout(function(){ reducespin();},1/* change this to ajax response*/);
+var t=randomFromTo(1,4)*1000;
+setTimeout(function(){ reducespin();},t);
 }
 
 function incrSpd(){
@@ -547,14 +533,14 @@ function guessBetPos(){
 	else	presentBetNum=100;
 	if(presentBetNum!=100)
 		addBet(presentBetNum);
-	stopbtntext.text=betMouseX+"    "+betMouseY+"    "+presentBetNum ;
+	stopbtntext.text=betMouseX+"    "+betMouseY+"    "+presentBetNum;
 
 }
 
 canvas.setLoop(function(){
 	wheel.rotation+=wheelspeed;
 	indi.rotation= (upperhalf==0)? ((ball.y<0)? posangle+180:posangle):(-1*posangle);
-	stopbtntext.text=ballspdinc;//ballDropped+"  "+bettingCash+"   "+checkBallWithinWheel();
+	stopbtntext.text=ballDropped+"  "+bettingCash+"   "+checkBallWithinWheel();
 	if (wheel.rotation==360) wheel.rotation=0;
 	if(ballDropped==1)
 	{
@@ -578,13 +564,13 @@ chip100.bind("click tap",function(){ chipSel=100; selectChip();});
 layout.bind("click tap",function(){ if(ballDropped==0)setTimeout(function(){guessBetPos();},5) });
 
 
-
+<<<<<<< HEAD
 //ball.bind("mouseenter",function(){  
 //if(ballDropped==0){
-
+=======
 ball.bind("mouseenter",function(){  
 if(ballDropped==0){
-
+>>>>>>> 415ec230b255bfc789a653718a1b9f3bb2a58972
 ball.dragAndDrop({
 	move: function(){ stopbtntext.text="x:"+(posx)+" y:"+(posy)+" a:"+posangle;},
 	end: function(){
@@ -595,14 +581,26 @@ ball.dragAndDrop({
 			setTimeout(function(){stopspin();},1000);
 		}
 		}	
+<<<<<<< HEAD
+	});//}
+//
+//ball.bind("mouseleave",function(){ball.dragAndDrop(false);});
 
+// });
+=======
 	});
+
 	}	
 });
 ball.bind("mouseleave",function(){ball.dragAndDrop(false);});
 
    //});
-
+stopbtn.bind("click tap",function(){if(spinwheel!=0) stopspin();});
+chip1.bind("click tap",function(){ chipSel=1; selectChip();});
+chip10.bind("click tap",function(){ chipSel=10; selectChip();});
+chip100.bind("click tap",function(){ chipSel=100; selectChip();});
+layout.bind("click tap",function(){ if(ballDropped==0)setTimeout(function(){guessBetPos();},5) });
+>>>>>>> 415ec230b255bfc789a653718a1b9f3bb2a58972
 
 
 
@@ -624,8 +622,5 @@ canvas.addChild(chip10);
 canvas.addChild(chip100);
 canvas.addChild(chipRect);
 selectChip();
-
-});
-
 
 
