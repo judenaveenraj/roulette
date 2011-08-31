@@ -42,6 +42,10 @@ y:0,
 width:canvas.width,
 height:canvas.height,
 stroke: " 10px #239 "
+});$(document).ready(function(){
+  $("button").click(function(){
+    $("div").load('test1.txt');
+  });
 });
 
 var indi=canvas.display.arc({
@@ -52,7 +56,7 @@ radius:90,
 stroke:"100px #fff",
 start:-5,
 end:5,
-opacity:0.5,
+opacity:0.0,
 rotation:0
 
 });
@@ -397,20 +401,10 @@ if(wheelspeed==0 && wheelRotStatus==1) { wheelRotStatus=0; decrSpd();}
 function stopspin(){
 spinwheel=0;
 ///------AJAX REQUEST TO RANDOMIZE-------///
-var xmlhttp;
-xmlhttp=new XMLHttpRequest();
-xmlhttp.onreadystatechange=function()
-  {
-  if (xmlhttp.readyState==4 && xmlhttp.status==200)
-    {
-    alert(xmlhttp.responseText);
-    }
-  }
-xmlhttp.open("GET","randomizer.php",false);
-xmlhttp.send();
+
 ///------END AJAX REQUEST-------///
 
-setTimeout(function(){ reducespin();},1/* change this to ajax response*/);
+setTimeout(function(){ reducespin();},1000/* change this to ajax response*/);
 }
 
 function incrSpd(){
@@ -430,40 +424,40 @@ if(ballspdinc<0) ballspdinc=0;
 }
 
 function ballAccelrt(){
-if (turnOver!=1){
-//console.log(" 1:"+posx+" 2:"+posy+" 3:"+posrad+" 4:"+posangrad+" 5:"+posangle+" 6:"+ball.x+" 7:"+ball.y);
-if(upperhalf==0){
-posangle+=ballspdinc;
-posangrad=posangle*(Math.PI/180);
-posx=posrad*Math.cos(posangrad);
-posy=posrad*Math.sin(posangrad);
-ball.x=posx+185;
-ball.y=posy+315;
-}
-else{
-posangle-=ballspdinc;
-posangrad=posangle*(Math.PI/180);
-posx=posrad*Math.cos(posangrad);
-posy=posrad*Math.sin(posangrad);
-ball.x=(1*posx)+185;
-ball.y=(-1*posy)+315;
-}
+	if (turnOver!=1){
+	//console.log(" 1:"+posx+" 2:"+posy+" 3:"+posrad+" 4:"+posangrad+" 5:"+posangle+" 6:"+ball.x+" 7:"+ball.y);
+	if(upperhalf==0){
+		posangle+=ballspdinc;
+		posangrad=posangle*(Math.PI/180);
+		posx=posrad*Math.cos(posangrad);
+		posy=posrad*Math.sin(posangrad);
+		ball.x=posx+185;
+		ball.y=posy+315;
+	}
+	else{
+		posangle-=ballspdinc;
+		posangrad=posangle*(Math.PI/180);
+		posx=posrad*Math.cos(posangrad);
+		posy=posrad*Math.sin(posangrad);
+		ball.x=(1*posx)+185;
+		ball.y=(-1*posy)+315;
+	}
 
-if (ballspdinc==0)
-{
-var x=-1*(posangle%360);
-x=Math.floor(posangle/10);
-turnOver=1;
-setTimeout(function(){getTurnResult();},1);
-console.log(x);
-}
-setTimeout(function(){if (posrad<130) incrRadius();},5);
-if (wheelRotStatus==1)
-setTimeout(function(){if(ballspdinc<1.6) incrSpd();},5);
-else
-setTimeout(function(){if (ballspdinc>0) decrSpd();},5);
-setTimeout(function(){ballAccelrt();},5);
-}
+	if (ballspdinc==0)
+	{
+		var x=-1*(posangle%360);
+		x=Math.floor(posangle/10);
+		turnOver=1;
+		setTimeout(function(){getTurnResult();},1);
+		console.log(x);
+	}
+	setTimeout(function(){if (posrad<130) incrRadius();},5);
+	if (wheelRotStatus==1)
+	setTimeout(function(){if(ballspdinc<1.6) incrSpd();},5);
+	else
+	setTimeout(function(){if (ballspdinc>0) decrSpd();},5);
+	setTimeout(function(){ballAccelrt();},5);
+	}
 }
 
 function checkBallWithinWheel(){
@@ -551,12 +545,14 @@ function guessBetPos(){
 canvas.setLoop(function(){
 	wheel.rotation+=wheelspeed;
 	indi.rotation= (upperhalf==0)? ((ball.y<0)? posangle+180:posangle):(-1*posangle);
-	stopbtntext.text=ballspdinc;//ballDropped+"  "+bettingCash+"   "+checkBallWithinWheel();
+	stopbtntext.text=posangle+"      "+wheel.rotation+"      "+upperhalf;//ballDropped+"  "+bettingCash+"   "+checkBallWithinWheel();
 	if (wheel.rotation==360) wheel.rotation=0;
 	if(ballDropped==1)
 	{
 		var x=(posangle-4.8648)*-1;
 		x=x-wheel.rotation;
+		//if (upperhalf==0)
+		//	x=x-180;		
 		x=x%360;
 		x=x<0?-x:x;
 		x=angles[Math.floor(x/9.7297)];
