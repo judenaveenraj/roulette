@@ -32,16 +32,9 @@ var chipPos={0:[63,89],112:[185,180],212:[365,180],312:[545,180],118:[135,220],2
 
 var canvas= oCanvas.create({
 canvas: "#canvas",
-//background: "#5aa064",
+background: "transparent",
 fps:30
 });
-
-var bg=canvas.display.image({
-x:0,y:0,
-image:"1.png"
-
-});
-
 
 var rect =canvas.display.rectangle({
 x:0,
@@ -613,7 +606,7 @@ ball.bind("mouseleave",function(){ball.dragAndDrop(false);});
 
 
 
-canvas.addChild(bg);
+
 stopbtn.addChild(stopbtntext);
 canvas.addChild(stopbtn);
 balancebox.addChild(balancetext);
