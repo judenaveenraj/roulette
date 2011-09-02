@@ -89,8 +89,8 @@ origin:{x:"top", y:"left"},
 });
 
 var ball= canvas.display.arc({
-x:50,
-y:50,
+x:80,
+y:80,
 origin:{x:"center", y:"center"},
 radius:10,
 start:0,
@@ -194,8 +194,8 @@ canvas.redraw();
 
 function resetBallPos(){
 ball.animate({
-x:50,
-y:50,
+x:80,
+y:80,
 radius:10},
 "long","ease-in-out");
 }
@@ -440,10 +440,12 @@ if(wheelspeed==0 && wheelRotStatus==1) { wheelRotStatus=0; decrSpd();}
 
 function stopspin(){
 spinwheel=0;
+var t;
 ///------AJAX REQUEST TO RANDOMIZE-------///
-
+//$.ajax({url:"http://localhost:80/randomizer.php", success:function(html){t=html;}
+//})
 ///------END AJAX REQUEST-------///
-
+//alert(t);
 setTimeout(function(){ reducespin();},1000/* change this to ajax response*/);
 }
 
